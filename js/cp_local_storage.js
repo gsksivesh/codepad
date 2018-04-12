@@ -73,4 +73,9 @@ class LocalStorage {
         this.code_cells[index_to_be_updated] = cell_info;
         updateLocalStorage(this.code_cells);
     }
+
+    removeCell(id){
+        let index_to_be_removed = getIndexObjectArray(this.code_cells, id);
+        this.code_cells.splice(index_to_be_removed, 1);
+    }
 }

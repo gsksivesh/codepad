@@ -2,7 +2,8 @@ $(document).ready(function () {
     let local_storage = new LocalStorage();
     const cell_template = `
     <div class="cp-cell" data-id="">
-        <h1 class="cp-title">First code</h1>
+        <h1 class="cp-title">Double click to edit title</h1>
+        <button class="cp-delete">Delete</button>
         <label>
             <textarea class="cp-code"></textarea>
         </label>
@@ -41,6 +42,11 @@ $(document).ready(function () {
         });
     }
 
+    function deleteData($code_cell){
+        let unique_id = $code_cell.attr('data-id');
+        local_storage.removeCell(unique_id);
+    }
+
     $('#cp-add').on('click', function () {
         let timestamp = new Date().getTime();
         // using timestamp as unique id
@@ -71,6 +77,12 @@ $(document).ready(function () {
         setTimeout(function () {
             updateData($this.closest('.cp-cell'));
         }, 500);
+    });
+
+    $(document).on('click', '.cp-delete', function () {
+        let $code_cell = $(this).closest('.cp-cell');
+        deleteData($code_cell);
+        $code_cell.remove();
     });
 
     renderFromData();
