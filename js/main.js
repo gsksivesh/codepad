@@ -42,7 +42,7 @@ $(document).ready(function () {
         });
     }
 
-    function deleteData($code_cell){
+    function deleteData($code_cell) {
         let unique_id = $code_cell.attr('data-id');
         local_storage.removeCell(unique_id);
     }
@@ -70,6 +70,10 @@ $(document).ready(function () {
             updateData($(this.closest('.cp-cell')));
             $(this).remove();
         }
+        if (event.type === 'click') {
+            // providing support to click on other than this element
+            event.stopPropagation();
+        }
     });
 
     $(document).on('keyup input click', '.cp-code', function () {
@@ -83,6 +87,16 @@ $(document).ready(function () {
         let $code_cell = $(this).closest('.cp-cell');
         deleteData($code_cell);
         $code_cell.remove();
+    });
+
+    $(document).on('click', function () {
+        let $input_elements = $('.cp-title-input');
+        $input_elements.each(function (index, element) {
+            let value = $(element).val();
+            $(element).before(`<h1 class="cp-title">${value}</h1>`);
+            updateData($(this.closest('.cp-cell')));
+            $(element).remove();
+        })
     });
 
     renderFromData();
